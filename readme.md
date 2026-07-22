@@ -1,3 +1,67 @@
+# 🏥 Sistema de Gestión de Pacientes
+
+Este es un sistema empresarial para la administración de pacientes. Está diseñado con una separación estricta de responsabilidades entre el servidor y el cliente para garantizar un rendimiento óptimo, alta seguridad y escalabilidad.
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+*   **Backend:** Node.js, [NestJS](https://nestjs.com) (Framework Pro), TypeScript, JWT (Seguridad).
+*   **Frontend:** [Angular](https://angular.dev) (Framework Enterprise), TypeScript, Formularios Reactivos.
+
+---
+
+## 🟢 Arquitectura del Backend (NestJS)
+
+El backend utiliza una **Arquitectura Modular Orientada al Dominio**. Cada entidad de negocio (Autenticación, Pacientes, Citas) se auto-contiene en su propio módulo con tres capas fundamentales: **Controlador, Servicio y Entidad**.
+
+### 📂 Estructura de Carpetas del Servidor
+
+```text
+backend-nestjs/
+├── src/
+│   ├── app.module.ts         # Módulo raíz que orquesta toda la API
+│   ├── main.ts               # Punto de entrada (Inicializa el servidor)
+│   ├── common/               # Middlewares, Guards de seguridad y filtros globales
+│   ├── config/               # Conexión a Base de Datos y variables de entorno
+│   └── modules/              # Módulos del dominio del negocio
+│       ├── autenticasion/             # Módulo de Seguridad 
+│       ├── pacientes /         # Módulo de Catálogo e Historial de Pacientes
+│       └── citas/     # Módulo de Agenda, Calendario y Horarios Médicos
+```
+
+### ⚙️ Responsabilidad de sus Componentes
+
+1.  **Módulos (`*.module.ts`):** Son las cajas organizadoras. Conectan las piezas internas del módulo y deciden qué servicios "prestar" o exportar a otros módulos.
+2.  **Controladores (`*.controller.ts`):** Actúan como recepcionistas de la API. Escuchan las peticiones HTTP del frontend (`GET`, `POST`, `PUT`, `DELETE`), extraen los datos y delegan el trabajo al servicio.
+3.  **Servicios (`*.service.ts`):** Son los trabajadores principales. Contienen la lógica de negocio pura (por ejemplo: encriptar claves, validar que un médico no tenga citas cruzadas u operaciones en la base de datos).
+4.  **Entidades (`*.entity.ts`):** El plano o mapa de las tablas de la base de datos. Define qué columnas e información se guarda en el disco duro.
+5.  **DTOs (`*.dto.ts`):** El guardia de seguridad de los datos. Revisa que la información que envía el frontend tenga el formato correcto antes de entrar al servidor.
+
+---
+
+## 🔵 Arquitectura del Frontend (Angular)
+
+El frontend está estructurado bajo el patrón **Core, Shared y Features (Características)**. Esto evita el desorden visual y permite reutilizar componentes de interfaz gráfica de manera inteligente.
+
+### 📂 Estructura de Carpetas del Cliente
+
+```text
+frontend-angular/
+├── src/
+│   ├── main.ts               # Punto de entrada de la aplicación en el navegador
+│   └── app/
+│       ├── app.routes.ts     # Enrutador y sistema de navegación global
+│       ├── core/             # Servicios globales únicos (Autenticación e Interceptores HTTP)
+│       ├── shared/           # Elementos visuales reutilizables (Navbar, Sidebar, Tablas, Modals)
+│       └── features/         # Las pantallas de trabajo (Páginas de la aplicación)
+│           ├── dashboard/    # Panel con estadísticas de la clínica
+│           ├── patients/     # Pantallas de Lista y Formulario de Pacientes
+│           └── appointments/ # Pantallas de Calendario y Detalle de Consulta
+```
+
+
+
 1. El mismo lenguaje y sintaxis (TypeScript)Ambos frameworks utilizan TypeScript de forma nativa. Esto te permite compartir interfaces de datos, modelos y tipos entre el frontend y el backend
 
 2. Misma arquitectura y curva de aprendizaje cero
